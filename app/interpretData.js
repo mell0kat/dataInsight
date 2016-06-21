@@ -40,7 +40,23 @@ function parseData(csv, lineSeparator) {
 
 	return body;
 };
-console.log(parseData(csv1, 'n').length);
+
+//gets rid of headers
+let test = csv2.split('\r\n').slice(1);
+test = test.sort();
+console.log(test.length)
+console.log(removeDups(test).length)
+function removeDups(array, idx){
+
+	let noDups = [];
+	for (var i = 0; i< array.length; i++){
+		if (noDups[noDups.length-1] !== array[i]) {
+			noDups.push(array[i]);
+		}
+	}
+	return noDups;
+}
+// (parseData(csv1, 'n').length);
 module.exports = parseData;
 
 
