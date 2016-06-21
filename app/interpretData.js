@@ -8,14 +8,25 @@ const csv1 = fs.readFileSync("source1.csv", "utf8");
 const csv2 = fs.readFileSync("source2.csv", "utf8");
 
 
-function parseData(csv) {
-	let rows = csv.split('\r\n');
+function parseData(csv, lineSeparator) {
+	let rows;
+	if (lineSeparator === 'n') {
+		rows = csv.split('\r\n');
+	}else{
+		rows = csv.split('\r');
+	}
+
+
 	let headers = rows[0].split(','); //type array
-	console.log(headers[0])
+
 	let body = rows.slice(1).map(row => row.split(',')); // type array of arrays
 
 	//for some reason, the last line is an empty string
-	body = body.slice(0, body.length-1);
+	console.log((body[body.length-1] == ''))
+	if (body[body.length-1] == '') {
+		body = body.slice(0, body.length-1);
+	}
+
 
 	let numColumns = headers.length;
 	body = body.map((column) => {
@@ -26,9 +37,11 @@ function parseData(csv) {
 			}
 			return dataObj;
 	})
+
 	return body;
 };
+console.log(parseData(csv1, 'n').length);
+module.exports = parseData;
 
-console.log(parseData(csv2));
-parseData(csv2);
+
 
