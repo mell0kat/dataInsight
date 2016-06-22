@@ -5,6 +5,9 @@ const findObjWithKey = require('../app/interpretData').findObjectWithKey;
 const mergeObjects = require('../app/interpretData').mergeObjects;
 const mergeDataSets = require('../app/interpretData').mergeDataSets;
 const removeDups = require('../app/interpretData').removeDups;
+const findUnique
+= require('../app/interpretData').findUnique;
+
 const fs = require('fs');
 const expect = require('chai').expect;
 
@@ -107,7 +110,51 @@ describe('Data Interpretation', function() {
 			'ruby,rails']
 			let sansDuplicates = removeDups(array);
 
-			console.log(sansDuplicates.to.have.lengthOf(2));
+			expect(sansDuplicates).to.have.lengthOf(2);
+		})
+	});
+		describe('FindUnique', function() {
+		it ('loops through an array and returns a new array with unique campaigns', function() {
+
+			const array = [{
+							name: 'Robby',
+							height: '6',
+							eyes: 'brown',
+							hair: 'brown'
+						},
+						{
+							name: 'Willy',
+							height: '6',
+							eyes: 'blue',
+							hair: 'black'
+						},
+						{
+							name: 'Betsy',
+							height: '5',
+							eyes: 'hazel',
+							hair: 'dirty blonde'
+						},
+						{
+							name: 'Liz',
+							height: '5',
+							eyes: 'blue',
+							hair: 'blonde'
+						},
+						{
+							name: 'Kat',
+							height: '5',
+							eyes: 'green',
+							hair: 'dirty blonde'
+						},
+						{
+							name: 'Luke',
+							height: '5',
+							eyes: 'blue',
+							hair: 'blonde'
+						}];
+			let uniques = findUnique(array, 'hair');
+			console.log('UIQUES:', uniques)
+			expect(uniques).to.have.lengthOf(4);
 		})
 	})
 })

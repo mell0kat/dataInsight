@@ -62,10 +62,10 @@ let CSV1 = parseData(csv1, 'n');
 let CSV2WithoutDuplicates = parseData(csv2, 'n', true);
 
 let mergedTwoIntoOne = mergeDataSets(CSV1, CSV2WithoutDuplicates);
-console.log(mergedTwoIntoOne);
-console.log(CSV1.length);
-console.log(CSV2WithoutDuplicates.length);
-console.log(mergedTwoIntoOne.length);
+// console.log(mergedTwoIntoOne);
+// console.log(CSV1.length);
+// console.log(CSV2WithoutDuplicates.length);
+// console.log(mergedTwoIntoOne.length);
 
 
 
@@ -103,7 +103,7 @@ function mergeObjects(obj1, obj2) {
 
 function mergeDataSets (set1, set2, joinWith){
 	let merged = [];
-	for(var i = 0; i< set1.length; i++) {
+	for(let i = 0; i< set1.length; i++) {
 		let commonObj = findObjectWithKey(set2, joinWith, set1[i][joinWith]);
 		if (commonObj) {
 			merged.push(mergeObjects(set1[i], commonObj))}
@@ -111,13 +111,30 @@ function mergeDataSets (set1, set2, joinWith){
 	return merged;
 };
 
+function findUnique(arrayOfObjs, uniqueKey){
 
+	let uniqueObjs = [];
+	for (let i = 0; i < arrayOfObjs.length; i++){
+		let obj = arrayOfObjs[i];
+		// console.log('uniqueObjs, uniqueKey, obj[unique key', uniqueObjs, uniqueKey, obj[uniqueKey])
+		let matchingObj = findObjectWithKey(uniqueObjs, uniqueKey, obj[uniqueKey]);
+		console.log('MATCHING OBJ:', matchingObj);
+		if (!matchingObj) { uniqueObjs.push(obj)}
+	}
+
+	return uniqueObjs;
+	//loop through array
+	//if there is already an obj with that key and val, skip
+	//else, add to array
+}
+// Need to find
 module.exports = {
 	parseData: parseData,
 	findObjectWithKey: findObjectWithKey,
 	mergeObjects: mergeObjects,
 	mergeDataSets: mergeDataSets,
-	removeDups: removeDups
+	removeDups: removeDups,
+	findUnique: findUnique
 	}
 
 
