@@ -3,6 +3,8 @@
 const parseData = require('../app/interpretData').parseData;
 const findObjWithKey = require('../app/interpretData').findObjectWithKey;
 const mergeObjects = require('../app/interpretData').mergeObjects;
+const mergeDataSets = require('../app/interpretData').mergeDataSets;
+const removeDups = require('../app/interpretData').removeDups;
 const fs = require('fs');
 const expect = require('chai').expect;
 
@@ -42,7 +44,7 @@ describe('Data Interpretation', function() {
 
 			console.log(found);
 		})
-	})
+	});
 	describe('Merge objects', function() {
 		it ('merges obj2 into obj1 and returns new merged object', function() {
 			const duckAnimals = {
@@ -61,6 +63,51 @@ describe('Data Interpretation', function() {
 			let merged = mergeObjects(duckAnimals, farmAnimals);
 
 			expect(merged).to.have.property('cow', 'moo');
+		})
+	});
+	describe('MergeDataSets', function() {
+		it ('merges arr2 into arr1', function() {
+			const physicalAttributes = [{
+							name: 'Robby',
+							height: '6',
+							eyes: 'brown',
+							hair: 'brown'
+						},
+						{
+							name: 'Willy',
+							height: '6',
+							eyes: 'blue',
+							hair: 'black'
+						},
+						{
+							name: 'Betsy',
+							height: '5',
+							eyes: 'hazel',
+							hair: 'dirty blonde'
+						}];
+			const personalities = [{
+							name: 'Robby',
+							type: 'mellow'
+						},
+						{
+							name:'Willy',
+							type: 'gregarious'
+						}];
+
+			let mergedData = mergeDataSets(physicalAttributes,personalities, 'name');
+			console.log('RESULT:', mergedData);
+			expect(mergedData).to.have.lengthOf(2);
+		})
+	});
+	describe('RemoveDups', function() {
+		it ('loops through an array to return any duplicates', function() {
+
+			const array = ['javascript,node',
+			'javascript,node',
+			'ruby,rails']
+			let sansDuplicates = removeDups(array);
+
+			console.log(sansDuplicates.to.have.lengthOf(2));
 		})
 	})
 })
