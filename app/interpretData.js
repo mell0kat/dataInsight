@@ -8,8 +8,13 @@ const dataManipulation = require('./dataManipulation');
 const mergeDataSets = dataManipulation.mergeDataSets;
 const findUnique = dataManipulation.findUnique;
 
+const conversionsOnPlants = require('./conversionsOnPlants');
+const countTotalConversions = conversionsOnPlants.countTotalConversions;
+const findByKeyword = conversionsOnPlants.findByKeyword;
+
 // CSV DATA SETS
 const csv1 = fs.readFileSync("source1.csv", "utf8");
+
 
 const csv2 = fs.readFileSync("source2.csv", "utf8");
 
@@ -76,10 +81,15 @@ let campaignsInFeb = findInMonth(mergedTwoIntoOne, '02');
 
 let uniqueCampaignsInFeb = findUnique(campaignsInFeb, 'campaign');
 
-
+console.log(csv1)
 console.log('ANSWER:',uniqueCampaignsInFeb.length);
 
 // QUESTION 2:	What is the total number of conversions on plants?
+let campaignsWithPlantInitiative = findByKeyword(CSV1, 'plants', 'campaign');
+
+let plantConversions = countTotalConversions(campaignsWithPlantInitiative, 'conversions');
+
+console.log('ANSWER:', plantConversions)
 
 
 

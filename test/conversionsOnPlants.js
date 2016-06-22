@@ -51,7 +51,7 @@ describe('conversionsOnPlants', function() {
 				let totalConversions = countActions(data2, 'conversions')
 				let totalViews = countActions(data2, 'views')
 				let totalClicks = countActions(data2, 'clicks')
-			console.log('conv, views, clicks', totalConversions, totalViews, totalClicks)
+
 				expect(totalConversions).to.equal(77)
 				expect(totalViews).to.equal(9+64+49+98)
 				expect(totalClicks).to.equal(0)

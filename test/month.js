@@ -31,7 +31,6 @@ describe('FindByMonth', function() {
 					  object_type: 'photo'
 				}];
 				let dataInFeb = findInMonth(data, '02');
-				console.log('DATA IN FEB:', dataInFeb);
-
+				expect(dataInFeb).to.have.lengthOf(2);
 	})
 });

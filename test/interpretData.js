@@ -1,18 +1,13 @@
 'use strict';
 
 const parseData = require('../app/interpretData').parseData;
-
+const removeDups = require('../app/interpretData').removeDups;
 
 const dataManipulation = require('../app/dataManipulation');
 const mergeDataSets = dataManipulation.mergeDataSets;
 const findUnique = dataManipulation.findUnique;
 const findObjWithKey = dataManipulation.findObjectWithKey;
 const mergeObjects = dataManipulation.mergeObjects;
-
-
-const removeDups = require('../app/interpretData').removeDups;
-
-
 
 const fs = require('fs');
 const expect = require('chai').expect;
@@ -50,8 +45,6 @@ describe('Data Interpretation', function() {
 			const key = 'pig';
 			const value = 1;
 			let found = findObjWithKey(array, key, value);
-
-			console.log(found);
 		})
 	});
 	describe('Merge objects', function() {
@@ -119,7 +112,7 @@ describe('Data Interpretation', function() {
 			expect(sansDuplicates).to.have.lengthOf(2);
 		})
 	});
-		describe('FindUnique', function() {
+	describe('FindUnique', function() {
 		it ('loops through an array and returns a new array with unique campaigns', function() {
 
 			const array = [{
@@ -159,7 +152,6 @@ describe('Data Interpretation', function() {
 							hair: 'blonde'
 						}];
 			let uniques = findUnique(array, 'hair');
-
 			expect(uniques).to.have.lengthOf(4);
 		})
 	})

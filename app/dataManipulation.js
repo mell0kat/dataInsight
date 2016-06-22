@@ -26,22 +26,18 @@ mergeObjects: function (obj1, obj2) {
 		}
 		return merged;
 	},
-
+//function for finding unique items in an array based on a a particular field
 findUnique: function (arrayOfObjs, uniqueKey){
 
 		let uniqueObjs = [];
 		for (let i = 0; i < arrayOfObjs.length; i++){
 			let obj = arrayOfObjs[i];
-			// console.log('uniqueObjs, uniqueKey, obj[unique key', uniqueObjs, uniqueKey, obj[uniqueKey])
 			let matchingObj = module.exports.findObjectWithKey(uniqueObjs, uniqueKey, obj[uniqueKey]);
 
 			if (!matchingObj) { uniqueObjs.push(obj)}
 		}
 
 		return uniqueObjs;
-		//loop through array
-		//if there is already an obj with that key and val, skip
-		//else, add to array
 	}
 }
 

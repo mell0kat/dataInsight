@@ -3,7 +3,7 @@
 function grabMonth(dateString) {
 		return dateString.split('-')[1];
 };
-
+// loops through array to find campaigns in a particular month
 module.exports = {
 	findInMonth: function(array, month){
 		let elementsInMonth = [];

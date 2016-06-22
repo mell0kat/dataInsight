@@ -11,7 +11,7 @@ module.exports = {
 		});
 	},
 
-
+	//will loop through array to count actions
 	countActions: function(array, actionToCount) {
 
 		return array.reduce((prev, current) => {
@@ -26,11 +26,24 @@ module.exports = {
 			return prev + 0;
 		}, 0)
 	},
+
+	//counts total number of total converstions in an array of objects
 	// data, 'conversions'
 	countTotalConversions: function(array, searchField) {
+		let total = 0;
 		//loop through data
-		//visit actions
-		//loop through obj[actions]
-		//whereever action:conversion, count other total
+		for (let i = 0; i < array.length; i++) {
+
+			// USE SOME REGEX TO DEAL WITH UNFORTNATE FORMATTING:
+
+			array[i].actions = array[i].actions.replace(/""/g, "'")
+			array[i].actions = JSON.parse(array[i].actions);
+
+			let actionsForItem = module.exports.countActions(array[i].actions, searchField);
+			total += actionsForItem;
+
+		}
+		return total;
+
 	}
 }
