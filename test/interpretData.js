@@ -1,12 +1,18 @@
 'use strict';
 
 const parseData = require('../app/interpretData').parseData;
-const findObjWithKey = require('../app/interpretData').findObjectWithKey;
-const mergeObjects = require('../app/interpretData').mergeObjects;
-const mergeDataSets = require('../app/interpretData').mergeDataSets;
+
+
+const dataManipulation = require('../app/dataManipulation');
+const mergeDataSets = dataManipulation.mergeDataSets;
+const findUnique = dataManipulation.findUnique;
+const findObjWithKey = dataManipulation.findObjectWithKey;
+const mergeObjects = dataManipulation.mergeObjects;
+
+
 const removeDups = require('../app/interpretData').removeDups;
-const findUnique
-= require('../app/interpretData').findUnique;
+
+
 
 const fs = require('fs');
 const expect = require('chai').expect;
@@ -18,7 +24,7 @@ describe('Data Interpretation', function() {
 		it ('correctly turns csv data into array of objects', function() {
 			const csvTest = fs.readFileSync("TestData1.csv", "utf8");
 			const output = parseData(csvTest);
-			console.log(output)
+
 			expect(output).to.be.an.instanceof(Array);
 			expect(output[0]).to.have.property('Name').that.is.a('string');
 			expect(output).to.have.lengthOf(5);
@@ -98,7 +104,7 @@ describe('Data Interpretation', function() {
 						}];
 
 			let mergedData = mergeDataSets(physicalAttributes,personalities, 'name');
-			console.log('RESULT:', mergedData);
+
 			expect(mergedData).to.have.lengthOf(2);
 		})
 	});
@@ -153,7 +159,7 @@ describe('Data Interpretation', function() {
 							hair: 'blonde'
 						}];
 			let uniques = findUnique(array, 'hair');
-			console.log('UIQUES:', uniques)
+
 			expect(uniques).to.have.lengthOf(4);
 		})
 	})

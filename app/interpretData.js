@@ -2,11 +2,18 @@
 
 const fs = require('fs');
 
-const csv1 = fs.readFileSync("source1.csv", "utf8");
+// MODULES
+const findInMonth = require('./findByMonth').findInMonth;
+const dataManipulation = require('./dataManipulation');
+const mergeDataSets = dataManipulation.mergeDataSets;
+const findUnique = dataManipulation.findUnique;
 
+// CSV DATA SETS
+const csv1 = fs.readFileSync("source1.csv", "utf8");
 
 const csv2 = fs.readFileSync("source2.csv", "utf8");
 
+//Helper function to remove duplicate values from data set
 function removeDups (array){
 	array.sort()
 	let noDups = [];
@@ -18,6 +25,7 @@ function removeDups (array){
 	return noDups;
 }
 
+// Parses csv file into array of objects with (key, value) as (column header, value at column, row)
 function parseData(csv, lineSeparator, removeDuplicates) {
 
 	let rows;
@@ -44,6 +52,7 @@ function parseData(csv, lineSeparator, removeDuplicates) {
 	}
 
 	let numColumns = headers.length;
+
 	// create objects that look like header:value
 	body = body.map((column) => {
 			let dataObj = {};
@@ -55,87 +64,32 @@ function parseData(csv, lineSeparator, removeDuplicates) {
 	return body;
 };
 
-// parseData(csv1, 'n', true).length);
-// console.log(parseData(csv1, 'n').length);
-// console.log(parseData(csv2, 'n', false).length);
+
+
+ // QUESTION 1: How many unique campaigns ran in February?
 let CSV1 = parseData(csv1, 'n');
 let CSV2WithoutDuplicates = parseData(csv2, 'n', true);
 
-let mergedTwoIntoOne = mergeDataSets(CSV1, CSV2WithoutDuplicates);
-// console.log(mergedTwoIntoOne);
-// console.log(CSV1.length);
-// console.log(CSV2WithoutDuplicates.length);
-// console.log(mergedTwoIntoOne.length);
+let mergedTwoIntoOne = mergeDataSets(CSV1,CSV2WithoutDuplicates);
+
+let campaignsInFeb = findInMonth(mergedTwoIntoOne, '02');
+
+let uniqueCampaignsInFeb = findUnique(campaignsInFeb, 'campaign');
+
+
+console.log('ANSWER:',uniqueCampaignsInFeb.length);
+
+// QUESTION 2:	What is the total number of conversions on plants?
 
 
 
-function grabMonth(dateString) {
-	return dateString.split('-')[1];
-};
 
-function findInMonth(array, month){
-	let elementsInMonth = [];
 
-	for (var i = 0; i< array.length; i++){
-
-			if (grabMonth(array[i].date) === month){
-			elementsInMonth.push(array[i]);
-			}
-	}
-	return elementsInMonth;
-}
-
-function findObjectWithKey(array, key, value){
-	return array.filter(item => (item[key] === value)
-		)[0]
-}
-
-//merging obj2 into obj1
-function mergeObjects(obj1, obj2) {
-	let merged = obj1;
-	for (let key in obj2){
-		if (!merged[key]){
-			merged[key] = obj2[key];
-		}
-	};
-	return merged;
-};
-
-function mergeDataSets (set1, set2, joinWith){
-	let merged = [];
-	for(let i = 0; i< set1.length; i++) {
-		let commonObj = findObjectWithKey(set2, joinWith, set1[i][joinWith]);
-		if (commonObj) {
-			merged.push(mergeObjects(set1[i], commonObj))}
-	}
-	return merged;
-};
-
-function findUnique(arrayOfObjs, uniqueKey){
-
-	let uniqueObjs = [];
-	for (let i = 0; i < arrayOfObjs.length; i++){
-		let obj = arrayOfObjs[i];
-		// console.log('uniqueObjs, uniqueKey, obj[unique key', uniqueObjs, uniqueKey, obj[uniqueKey])
-		let matchingObj = findObjectWithKey(uniqueObjs, uniqueKey, obj[uniqueKey]);
-		console.log('MATCHING OBJ:', matchingObj);
-		if (!matchingObj) { uniqueObjs.push(obj)}
-	}
-
-	return uniqueObjs;
-	//loop through array
-	//if there is already an obj with that key and val, skip
-	//else, add to array
-}
 // Need to find
 module.exports = {
 	parseData: parseData,
-	findObjectWithKey: findObjectWithKey,
-	mergeObjects: mergeObjects,
-	mergeDataSets: mergeDataSets,
-	removeDups: removeDups,
-	findUnique: findUnique
-	}
+	removeDups: removeDups
+}
 
 
 
